@@ -78,6 +78,7 @@ export function Story({ story, index }: StoryProps) {
           className="inline-block text-center relative"
           onError={handleImageError}
           aria-hidden="true"
+          data-testid="story-favicon"
         />
       )}
       <span>{story.title}</span>
