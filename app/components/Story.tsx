@@ -63,7 +63,7 @@ export function Story({ story, index }: StoryProps) {
   return (
     <a
       href={story.url}
-      className="flex items-center gap-2 hover:underline hover:underline-offset-4 p-2 rounded transition-colors"
+      className="flex items-center gap-2 hover:underline hover:underline-offset-4 p-2 rounded transition-colors dark-mode-card dark-mode-link"
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Read article: ${story.title}`}
@@ -81,7 +81,7 @@ export function Story({ story, index }: StoryProps) {
           data-testid="story-favicon"
         />
       )}
-      <span>{story.title}</span>
+      <span className="dark-mode-text">{story.title}</span>
     </a>
   )
 } 

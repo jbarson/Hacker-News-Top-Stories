@@ -10,10 +10,10 @@ export function StorySkeletonLoader({ count = 10 }: StorySkeletonLoaderProps) {
       {Array.from({ length: count }).map((_, index) => (
         <div
           key={index}
-          className="flex items-center gap-2 p-2 rounded"
+          className="flex items-center gap-2 p-2 rounded dark-mode-card"
         >
-          <Skeleton className="w-4 h-4" />
-          <Skeleton className="h-6 flex-grow" />
+          <Skeleton className="w-4 h-4 dark-mode-skeleton" />
+          <Skeleton className="h-6 flex-grow dark-mode-skeleton" />
         </div>
       ))}
     </div>

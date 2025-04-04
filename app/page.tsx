@@ -8,15 +8,15 @@ export default function Home() {
   const { stories, isLoading, error } = useStories(10, 60000)
 
   if (error) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="text-red-500">Failed to load stories.</div>
+    <div className="flex items-center justify-center min-h-screen dark-mode-bg">
+      <div className="text-red-500 dark-mode-text">Failed to load stories.</div>
     </div>
   )
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 dark-mode-bg">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start w-full max-w-2xl">
-        <h1 className="text-5xl font-bold">Hacker News Feed</h1>
+        <h1 className="text-5xl font-bold dark-mode-text">Hacker News Feed</h1>
 
         {isLoading || !stories ? (
           <StorySkeletonLoader count={10} />
