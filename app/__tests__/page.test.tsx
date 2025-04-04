@@ -12,6 +12,11 @@ jest.mock('../components/Story', () => ({
   Story: jest.fn(() => <div data-testid="mock-story">Mock Story</div>),
 }))
 
+// Mock the StorySkeletonLoader component
+jest.mock('../components/StorySkeletonLoader', () => ({
+  StorySkeletonLoader: jest.fn(() => <div data-testid="skeleton-loader" role="progressbar">Loading Skeleton</div>),
+}))
+
 describe('Home Page', () => {
   const mockStories = [
     {
@@ -34,7 +39,7 @@ describe('Home Page', () => {
     useStories.mockReset()
   })
 
-  it('renders loading state when data is not available', () => {
+  it('renders loading skeleton when data is not available', () => {
     // Mock useStories to return loading state
     useStories.mockReturnValue({
       stories: null,
@@ -44,7 +49,8 @@ describe('Home Page', () => {
 
     render(<Home />)
     
-    expect(screen.getByText('Loading stories...')).toBeInTheDocument()
+    expect(screen.getByTestId('skeleton-loader')).toBeInTheDocument()
+    expect(screen.getByRole('progressbar')).toBeInTheDocument()
   })
 
   it('renders error state when there is an error', () => {
@@ -57,7 +63,9 @@ describe('Home Page', () => {
 
     render(<Home />)
     
-    expect(screen.getByText('Failed to load stories.')).toBeInTheDocument()
+    const errorMessage = screen.getByText('Failed to load stories.')
+    expect(errorMessage).toBeInTheDocument()
+    expect(errorMessage).toHaveClass('text-red-500')
   })
 
   it('renders stories when data is available', async () => {
@@ -77,5 +85,8 @@ describe('Home Page', () => {
     // Check that the Story component was rendered for each story
     const storyElements = screen.getAllByTestId('mock-story')
     expect(storyElements).toHaveLength(2)
+    
+    // Ensure skeleton loader is not present
+    expect(screen.queryByTestId('skeleton-loader')).not.toBeInTheDocument()
   })
 }) 
