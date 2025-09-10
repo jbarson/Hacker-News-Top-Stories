@@ -64,6 +64,6 @@ describe('Story Component', () => {
 
     // Now, the src should be updated to the next service
     favicon = screen.getByTestId('story-favicon')
-    expect(favicon).toHaveAttribute("src", "https://icon.horse/icon/example.com")
+    expect(favicon).toHaveAttribute('src', 'https://icon.horse/icon/example.com')
   })
 }) 

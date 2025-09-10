@@ -75,7 +75,7 @@ describe('useStories', () => {
     expect(result.current.isLoading).toBe(false)
     expect(result.current.stories).toBeUndefined()
     expect(result.current.error).toBeInstanceOf(Error)
-    expect(result.current.error.message).toContain('HTTP error! status: 500')
+    expect(result.current.error?.message).toContain('HTTP error! status: 500')
   })
 
   it('handles error when fetching a story item', async () => {
@@ -98,7 +98,7 @@ describe('useStories', () => {
     expect(result.current.isLoading).toBe(false)
     expect(result.current.stories).toBeUndefined()
     expect(result.current.error).toBeInstanceOf(Error)
-    expect(result.current.error.message).toContain('HTTP error! status: 500')
+    expect(result.current.error?.message).toContain('HTTP error! status: 500')
   })
 
   it('handles invalid URL for favicon generation', async () => {
