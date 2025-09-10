@@ -50,7 +50,7 @@ describe('Story Component', () => {
     render(<Story story={mockStory} index={0} />)
 
     let favicon = screen.getByTestId('story-favicon')
-    expect(favicon).toHaveAttribute('src', mockStory.faviconUrl)
+    expect(favicon).toHaveAttribute('src', mockStory.faviconUrl ?? '')
 
     // Trigger the error event
     fireEvent.error(favicon)
