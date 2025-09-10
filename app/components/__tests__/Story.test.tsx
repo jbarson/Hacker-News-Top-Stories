@@ -2,10 +2,6 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Story, type Story as StoryType } from '../Story'
 
-// Mock useState
-const mockSetState = jest.fn()
-const useStateMock = jest.fn().mockImplementation((init: any) => [init, mockSetState])
-
 describe('Story Component', () => {
   const mockStory: StoryType = {
     title: 'Test Story',
@@ -15,8 +11,6 @@ describe('Story Component', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    // Reset useState mock before each test
-    jest.spyOn(React, 'useState').mockImplementation(useStateMock)
   })
 
   it('renders the story title and link', () => {
@@ -32,10 +26,6 @@ describe('Story Component', () => {
   })
 
   it('renders the favicon when available', () => {
-    // Mock useState to return the favicon URL
-    jest.spyOn(React, 'useState').mockImplementationOnce(() => [mockStory.faviconUrl, mockSetState])
-    jest.spyOn(React, 'useState').mockImplementationOnce(() => [0, jest.fn()])
-
     render(<Story story={mockStory} index={0} />)
     
     const favicon = screen.getByTestId('story-favicon')
@@ -56,16 +46,24 @@ describe('Story Component', () => {
     expect(favicon).not.toBeInTheDocument()
   })
 
-  it('handles favicon loading error', () => {
-    // Mock useState to return the favicon URL
-    jest.spyOn(React, 'useState').mockImplementationOnce(() => [mockStory.faviconUrl, mockSetState])
-    jest.spyOn(React, 'useState').mockImplementationOnce(() => [0, jest.fn()])
-
+  it('handles favicon loading error and tries the next service', () => {
     render(<Story story={mockStory} index={0} />)
-    
-    const favicon = screen.getByTestId('story-favicon')
+
+    let favicon = screen.getByTestId('story-favicon')
+    expect(favicon).toHaveAttribute('src', mockStory.faviconUrl ?? '')
+
+    // Trigger the error event
     fireEvent.error(favicon)
+
+    // Now, the src should be updated to the next service
+    favicon = screen.getByTestId('story-favicon')
+    expect(favicon).toHaveAttribute('src', 'https://favicon.ico/example.com')
     
-    expect(mockSetState).toHaveBeenCalled()
+    // Trigger another error
+    fireEvent.error(favicon)
+
+    // Now, the src should be updated to the next service
+    favicon = screen.getByTestId('story-favicon')
+    expect(favicon).toHaveAttribute('src', 'https://icon.horse/icon/example.com')
   })
 }) 
